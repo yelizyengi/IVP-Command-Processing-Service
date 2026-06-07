@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ivp-config
+data:
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-broker:9092"
+  IVP_KAFKA_TOPICS_IVP_COMMANDS: "ivp-commands"
+  IVP_KAFKA_TOPICS_ORDER_EVENTS: "order-events"
+  IVP_KAFKA_TOPICS_ORDER_COMMANDS: "order-commands"
+  IVP_KAFKA_TOPICS_IVP_EVENTS: "ivp-events"
+  IVP_KAFKA_TOPICS_IVP_COMMANDS_DLQ: "ivp-commands-dlq"
+  IVP_KAFKA_TOPICS_ORDER_EVENTS_DLQ: "order-events-dlq"
+  IVP_OUTBOX_POLL_INTERVAL_MS: "100"
+  IVP_OUTBOX_BATCH_SIZE: "50"

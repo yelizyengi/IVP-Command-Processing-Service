@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: ivp-command-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ivp
+    username: ivp
+    password: ivp
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ivp-command-service
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+    listener:
+      concurrency: 3
+      ack-mode: manual
+
+ivp:
+  kafka:
+    topics:
+      ivp-commands: ivp-commands
+      order-events: order-events
+      order-commands: order-commands
+      ivp-events: ivp-events
+      ivp-commands-dlq: ivp-commands-dlq
+      order-events-dlq: order-events-dlq
+  outbox:
+    poll-interval-ms: 100
+    batch-size: 50
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,info
+  endpoint:
+    health:
+      show-details: always
